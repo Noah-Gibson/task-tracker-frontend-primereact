@@ -19,5 +19,5 @@ export const updateTask = async (id, task) => {
 
 export const deleteTask = async (id) => {
   await axios.delete(`${API_URL}/${id}`);
-  return id; // optional, useful for updating UI
+  return id;
 };

@@ -15,7 +15,7 @@ function App() {
     fetchTasks();
   }, [])
 
-  const handleTaskCreated = (newTask) => {
+  const updateTaskList = (newTask) => {
     setTasks((prevTasks) => [...prevTasks, newTask]);
   };
 
@@ -28,8 +28,11 @@ function App() {
       }}
     >
       <h1 style={{ textAlign: 'center', marginBottom: '2rem' }}>Task Tracker</h1>
-      <TaskForm onTaskCreated={handleTaskCreated} />
-      <TaskList tasks={tasks} />
+      <TaskForm onTaskCreated={updateTaskList} />
+      <TaskList
+        tasks={tasks}
+        onTaskDeleted={(id) => setTasks(prevTasks => prevTasks.filter(t => t.id !== id))}
+      />
     </div>
   );
 }

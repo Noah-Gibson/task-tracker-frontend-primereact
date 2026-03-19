@@ -3,11 +3,13 @@ import { Button } from 'primereact/button';
 import { InputText } from 'primereact/inputtext';
 import { InputTextarea } from 'primereact/inputtextarea';
 import { Card } from 'primereact/card';
+import { Calendar } from 'primereact/calendar';
 import { createTask } from '../api/tasks';
 
 function TaskForm({ onTaskCreated }) {
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
+    const [dueDate, setDueDate] = useState(null);
 
     const handleCreateTask = async () => {
         if (!title) return;
@@ -16,6 +18,7 @@ function TaskForm({ onTaskCreated }) {
             const newTask = await createTask({
                 title,
                 description,
+                dueDate,
                 isComplete: false
             });
 
@@ -25,6 +28,7 @@ function TaskForm({ onTaskCreated }) {
             // Clear inputs
             setTitle('');
             setDescription('');
+            setDueDate(null);
         } catch (err) {
             console.error('Error creating task:', err);
         }
@@ -34,7 +38,7 @@ function TaskForm({ onTaskCreated }) {
         <Card title="Create new task" style={{ marginBottom: '2rem' }}>
             <div className="p-fluid">
                 <div className="p-field" style={{ marginBottom: '1rem' }}>
-                    <label htmlFor="title">Title</label>
+                    <label htmlFor="title">Title *</label>
                     <InputText
                         id="title"
                         value={title}
@@ -52,6 +56,16 @@ function TaskForm({ onTaskCreated }) {
                         rows={3}
                         placeholder="Task description"
                         style={{ resize: 'vertical' }}
+                    />
+                </div>
+                <div className='p-field' style={{ marginBottom: '1rem' }}>
+                    <label>Due date</label>
+                    <Calendar
+                        value={dueDate}
+                        onChange={(e) => setDueDate(e.value)}
+                        showTime
+                        hourFormat='12'
+                        placeholder='Task due date'
                     />
                 </div>
                 <div style={{ maxWidth: '200px' }}>
