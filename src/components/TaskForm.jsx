@@ -2,11 +2,10 @@ import React, { useState } from 'react';
 import { Button } from 'primereact/button';
 import { InputText } from 'primereact/inputtext';
 import { InputTextarea } from 'primereact/inputtextarea';
-import { Card } from 'primereact/card';
 import { Calendar } from 'primereact/calendar';
 import { createTask } from '../api/tasks';
 
-function TaskForm({ onTaskCreated }) {
+function TaskForm({ onTaskChanged }) {
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
     const [dueDate, setDueDate] = useState(null);
@@ -23,7 +22,7 @@ function TaskForm({ onTaskCreated }) {
             });
 
             // Notify parent to refresh the task list
-            onTaskCreated(newTask);
+            onTaskChanged();
 
             // Clear inputs
             setTitle('');
@@ -35,49 +34,47 @@ function TaskForm({ onTaskCreated }) {
     };
 
     return (
-        <Card title="Create new task" style={{ marginBottom: '2rem' }}>
-            <div className="p-fluid">
-                <div className="p-field" style={{ marginBottom: '1rem' }}>
-                    <label htmlFor="title">Title *</label>
-                    <InputText
-                        id="title"
-                        value={title}
-                        onChange={(e) => setTitle(e.target.value)}
-                        placeholder="Task title"
-                    />
-                </div>
-
-                <div className="p-field" style={{ marginBottom: '1rem' }}>
-                    <label htmlFor="description">Description</label>
-                    <InputTextarea
-                        id="description"
-                        value={description}
-                        onChange={(e) => setDescription(e.target.value)}
-                        rows={3}
-                        placeholder="Task description"
-                        style={{ resize: 'vertical' }}
-                    />
-                </div>
-                <div className='p-field' style={{ marginBottom: '1rem' }}>
-                    <label>Due date</label>
-                    <Calendar
-                        value={dueDate}
-                        onChange={(e) => setDueDate(e.value)}
-                        showTime
-                        hourFormat='12'
-                        placeholder='Task due date'
-                    />
-                </div>
-                <div style={{ maxWidth: '200px' }}>
-                    <Button
-                        label="Create task"
-                        icon="pi pi-plus"
-                        onClick={handleCreateTask}
-                        style={{ width: '100%' }}
-                    />
-                </div>
+        <div className="p-fluid">
+            <div className="p-field" style={{ marginBottom: '1rem' }}>
+                <label htmlFor="title">Title *</label>
+                <InputText
+                    id="title"
+                    value={title}
+                    onChange={(e) => setTitle(e.target.value)}
+                    placeholder="Task title"
+                />
             </div>
-        </Card>
+
+            <div className="p-field" style={{ marginBottom: '1rem' }}>
+                <label htmlFor="description">Description</label>
+                <InputTextarea
+                    id="description"
+                    value={description}
+                    onChange={(e) => setDescription(e.target.value)}
+                    rows={3}
+                    placeholder="Task description"
+                    style={{ resize: 'vertical' }}
+                />
+            </div>
+            <div className='p-field' style={{ marginBottom: '1rem' }}>
+                <label>Due date</label>
+                <Calendar
+                    value={dueDate}
+                    onChange={(e) => setDueDate(e.value)}
+                    showTime
+                    hourFormat='12'
+                    placeholder='Task due date'
+                />
+            </div>
+            <div style={{ maxWidth: '200px' }}>
+                <Button
+                    label="Create task"
+                    icon="pi pi-plus"
+                    onClick={handleCreateTask}
+                    style={{ width: '100%' }}
+                />
+            </div>
+        </div>
     );
 }
 

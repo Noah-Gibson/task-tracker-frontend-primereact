@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Card } from 'primereact/card';
 import { getTasks } from './api/tasks';
 import TaskForm from './components/TaskForm';
 import TaskList from './components/TaskList';
@@ -15,8 +16,8 @@ function App() {
     fetchTasks();
   }, [])
 
-  const updateTaskList = (newTask) => {
-    setTasks((prevTasks) => [...prevTasks, newTask]);
+  const refreshTasks = async () => {
+    await fetchTasks();
   };
 
   return (
@@ -28,12 +29,11 @@ function App() {
       }}
     >
       <h1 style={{ textAlign: 'center', marginBottom: '2rem' }}>Task Tracker</h1>
-      <TaskForm onTaskCreated={updateTaskList} />
       <TaskList
         tasks={tasks}
-        onTaskDeleted={(id) => setTasks(prevTasks => prevTasks.filter(t => t.id !== id))}
+        onTaskChanged={refreshTasks}
       />
-    </div>
+    </div >
   );
 }
 
